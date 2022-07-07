@@ -6,7 +6,7 @@ services:
     # ports:
     #   - '5432:5432'
     volumes:
-      - /var/gln-space/kong-db:/var/lib/postgresql/data
+      - /var/book-exchange/kong-db:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=${KONG_PG_USER}
       - POSTGRES_DB=${KONG_PG_DB}
@@ -30,9 +30,9 @@ services:
     image: kong/kong-gateway:2.8.1.0-alpine
     ports:
       - '${KONG_GW_UPSTREAM_HTTP_PORT}:8000'
-      - '${KONG_GW_UPSTREAM_HTTPS_PORT}:8001'
-      - '${KONG_GW_API_HTTP_PORT}:8443'
-      - '${KONG_GW_API_HTTPS_PORT}:8444'
+      - '${KONG_GW_ADMIN_HTTP_PORT}:8001'
+      - '${KONG_GW_UPSTREAM_HTTPS_PORT}:8443'
+      - '${KONG_GW_ADMIN_HTTPS_PORT}:8444'
     environment:
       - KONG_DATABASE=postgres
       - KONG_PG_HOST=kong-database
@@ -70,9 +70,9 @@ services:
       - DB_HOST=kong-database
       - DB_USER=${KONG_PG_USER}
       - DB_PASSWORD=${KONG_PG_PASSWORD}
-      - TOKEN_SECRET=km1GUr4RkcQD7DewhJPNXrCuZwcKmqjb
+      - TOKEN_SECRET=${KONGA_SECRET_KEY}
       - DB_DATABASE=${KONG_PG_DB}
-      - NODE_ENV=production
+      - NODE_ENV=${KONGA_MODE}
     depends_on:
       - kong-database
 
