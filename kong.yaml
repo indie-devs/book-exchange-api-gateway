@@ -1,0 +1,41 @@
+_format_version: "1.1"
+services:
+- connect_timeout: 60000
+  host: localhost
+  name: admin-api
+  plugins:
+  - config:
+      anonymous: null
+      hide_credentials: false
+      key_in_body: false
+      key_in_header: true
+      key_in_query: true
+      key_names:
+      - apikey
+      run_on_preflight: true
+    enabled: true
+    name: key-auth
+    protocols:
+    - grpc
+    - grpcs
+    - http
+    - https
+  port: 8001
+  protocol: http
+  read_timeout: 60000
+  retries: 5
+  routes:
+  - https_redirect_status_code: 426
+    id: 70a3fa73-496b-4c66-b981-d8c2ed1327e8
+    path_handling: v0
+    paths:
+    - /admin-api
+    preserve_host: false
+    protocols:
+    - http
+    - https
+    regex_priority: 0
+    request_buffering: true
+    response_buffering: true
+    strip_path: true
+  write_timeout: 60000
